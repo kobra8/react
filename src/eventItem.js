@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Event = (props) => {
+const EventItem = (props) => {
 
     return (
         <li key={props.x.id}>
@@ -13,4 +13,4 @@ const Event = (props) => {
 
 }
 
-export default Event;
+export default EventItem;
