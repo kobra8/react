@@ -1,11 +1,12 @@
 import React from 'react';
-import events from './data/events.json'
 import { CounterComponent } from './counter';
 import { HelloComponent } from './hello';
 import EventItem from './eventItem';
 import FormComponent from './form';
 import EventSearch from './eventFilter';
 import EventAdd from './eventAdd';
+//import events from './data/events.json'
+import fetch from 'isomorphic-fetch';
 
 class Events extends React.Component {
 
@@ -26,10 +27,14 @@ class Events extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({
-            events
-            //Powyżej uzyto ES6, która skraca zapis events: events
-        })
+        fetch('http://frontendinsights.com/events.json')
+            .then(response => response.json())
+            .then(events => {
+                this.setState({
+                    events
+                 // Skrócony zapis ES6 zamiast events: events   
+                })
+            })
     }
     clearList = (event) => {
         this.setState({
@@ -118,7 +123,7 @@ class Events extends React.Component {
                     newDateValid={this.state.newDateValid}
                     time={this.state.newTime}
                     newTimeValid={this.state.newTimeValid}
-            
+
                     onFormChange={this.onFormChange.bind(this)}
                     onFormSubmit={this.onEventAdd.bind(this)}
                 />
