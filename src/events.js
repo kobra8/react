@@ -5,6 +5,7 @@ import EventItem from './eventItem';
 import FormComponent from './form';
 import EventSearch from './eventFilter';
 import EventAdd from './eventAdd';
+import Loader from './common/loader';
 //import events from './data/events.json'
 import fetch from 'isomorphic-fetch';
 
@@ -23,6 +24,7 @@ class Events extends React.Component {
             newDateValid: false,
             newTime: '',
             newTimeValid: false,
+            isLoading: true
         }
     }
 
@@ -31,11 +33,14 @@ class Events extends React.Component {
             .then(response => response.json())
             .then(events => {
                 this.setState({
-                    events
-                 // Skrócony zapis ES6 zamiast events: events   
+                    events,
+                    isLoading: false
+                    // Skrócony zapis ES6 zamiast events: events   
                 })
             })
+
     }
+
     clearList = (event) => {
         this.setState({
             events: []
@@ -98,43 +103,45 @@ class Events extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <h2>Lista spotkań:</h2>
-                <EventSearch searchText={this.state.searchText} onFilterChange={this.onFilterChange.bind(this)} />
-                <ul>
-                    {this.state.events.map((x) => {
-                        //  let date = new Date(x.date) - inny sposób na konwersję daty ze stringa
-                        let date = Date.parse(x.date);
-                        if (date >= Date.now() && x.name.toLowerCase().indexOf(this.state.searchText) > -1) {
-                            return <EventItem x={x} clearItem={this.clearItem.bind(this)} />
-                        };
-                        return null;
-                    })
-                    }
-                </ul>
-                <button onClick={this.clearList}>Clear list</button><br /><br />
-                <h3>Dodaj spotkanie:</h3>
-                <EventAdd name={this.state.newName}
-                    newNameValid={this.state.newNameValid}
-                    place={this.state.newPlace}
-                    newPlaceValid={this.state.newPlaceValid}
-                    date={this.state.newDate}
-                    newDateValid={this.state.newDateValid}
-                    time={this.state.newTime}
-                    newTimeValid={this.state.newTimeValid}
+            return (
+                <div>
+                    <h2>Lista spotkań:</h2>
+                    <EventSearch searchText={this.state.searchText} onFilterChange={this.onFilterChange.bind(this)} />
+                   <Loader isLoading={this.state.isLoading}>
+                    <ul>
+                        {this.state.events.map((x) => {
+                            //  let date = new Date(x.date) - inny sposób na konwersję daty ze stringa
+                            let date = Date.parse(x.date);
+                            if (date >= Date.now() && x.name.toLowerCase().indexOf(this.state.searchText) > -1) {
+                                return <EventItem x={x} key={x.id} clearItem={this.clearItem.bind(this)} />
+                            };
+                            return null;
+                        })
+                        }
+                    </ul>
+                    </Loader>
+                    <button onClick={this.clearList}>Clear list</button><br /><br />
+                    <h3>Dodaj spotkanie:</h3>
+                    <EventAdd name={this.state.newName}
+                        newNameValid={this.state.newNameValid}
+                        place={this.state.newPlace}
+                        newPlaceValid={this.state.newPlaceValid}
+                        date={this.state.newDate}
+                        newDateValid={this.state.newDateValid}
+                        time={this.state.newTime}
+                        newTimeValid={this.state.newTimeValid}
 
-                    onFormChange={this.onFormChange.bind(this)}
-                    onFormSubmit={this.onEventAdd.bind(this)}
-                />
-                <br /><hr /> <br />
-                <CounterComponent />
-                <HelloComponent /><br />
-                <FormComponent />
-            </div>
-        );
+                        onFormChange={this.onFormChange.bind(this)}
+                        onFormSubmit={this.onEventAdd.bind(this)}
+                    />
+                    <br /><hr /> <br />
+                    <CounterComponent />
+                    <HelloComponent /><br />
+                    <FormComponent />
+                </div>
+            );
+        }
     }
-}
 
 // Drugi sposób rozwiązania zadania: Wyświetl spotkania z dat przyszłych  
 // <ul>
