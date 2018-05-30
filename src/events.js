@@ -29,9 +29,10 @@ class Events extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://frontendinsights.com/events.json')
+        fetch('api/events')
             .then(response => response.json())
             .then(events => {
+                console.log(events);
                 this.setState({
                     events,
                     isLoading: false
