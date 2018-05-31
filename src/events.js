@@ -29,7 +29,7 @@ class Events extends React.Component {
     }
 
     componentDidMount() {
-        fetch('api/events')
+        fetch('http://localhost:3100/events')
             .then(response => response.json())
             .then(events => {
                 console.log(events);
