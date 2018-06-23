@@ -11,8 +11,16 @@ import fetch from 'isomorphic-fetch';
 
 class Events extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor(props) { //Obiekt props zawiera właściwości, które odpowiadają atrybutom przekazanym do komponentu - właściwości props są tylko do odczytu
+        super(props); //  Wywołanie konstruktora bazowego i przekazanie mu obiektu props, dzięki czemu w razie potrzeby
+        // można się odwołać do props przez this.props 
+
+/*
+Każdy komponent React będący klasą dziedziczącą z React.Component może posiadać swój własny, wewnętrzny stan. 
+Na stanie komponentu opierają się wszystkie interakcje z interfejsem użytkownika oraz wszystkie dynamiczne zmiany 
+wyglądu danego komponentu. Aby zadeklarować stan komponentu wystarczy do właściwości this.state przypisać obiekt. 
+Wartości przypisane do poszczególnych właściwości tego obiektu stanowią stan początkowy komponentu.
+*/
         this.state = {
             events: [],
             searchText: '',
@@ -26,6 +34,10 @@ class Events extends React.Component {
             newTimeValid: false,
             isLoading: true
         }
+/*
+Uwaga! Każde wywołanie metody this.setState powoduje ponowne wywołanie metody render komponentu
+(oraz metod render komponentów zagnieżdżonych).
+*/
     }
 
     componentDidMount() {
@@ -33,21 +45,23 @@ class Events extends React.Component {
             .then(response => response.json())
             .then(events => {
                 console.log(events);
-                this.setState({
-                    events,
+                this.setState({ // metoda setState służy do zmiany stanu komponentu
+                    events, // Skrócony zapis ES6 zamiast events: events  
                     isLoading: false
-                    // Skrócony zapis ES6 zamiast events: events   
+                    //Ustawia eventy pobrane z response i isLoading na false 
                 })
             })
 
     }
 
+    //Czyszczenie listy
     clearList = (event) => {
         this.setState({
             events: []
         })
     }
 
+    //Usuwanie eventu
     clearItem = (id, event) => {
         this.setState({
             events: this.state.events.filter(x => x.id !== id)
@@ -103,16 +117,17 @@ class Events extends React.Component {
         }
     }
 
-    render() {
-            return (
+    render() { //Metoda render musi być obowiązkowo zaimplementowana w komponncie opartym na klasie
+            return ( // musi zawsze zwracać pojedynczy element React (komponent lub generyczny element)
                 <div>
                     <h2>Lista spotkań:</h2>
                     <EventSearch searchText={this.state.searchText} onFilterChange={this.onFilterChange.bind(this)} />
+                    {/* Loader jest wraperem dla listy eventów */}
                    <Loader isLoading={this.state.isLoading}>
                     <ul>
-                        {this.state.events.map((x) => {
+                        {this.state.events.map((x) => { // Funkcja mapująca eventy i zwracająca tylko te, które się jeszcze nie odbyły
+                            let date = Date.parse(x.date); // Pobiera stringa z datą z obiektu eventu i konwertuje na datę
                             //  let date = new Date(x.date) - inny sposób na konwersję daty ze stringa
-                            let date = Date.parse(x.date);
                             if (date >= Date.now() && x.name.toLowerCase().indexOf(this.state.searchText) > -1) {
                                 return <EventItem x={x} key={x.id} clearItem={this.clearItem.bind(this)} />
                             };
@@ -123,7 +138,9 @@ class Events extends React.Component {
                     </Loader>
                     <button onClick={this.clearList}>Clear list</button><br /><br />
                     <h3>Dodaj spotkanie:</h3>
-                    <EventAdd name={this.state.newName}
+                    {/* Formularz dodawania eventu */}
+                    <EventAdd name={this.state.newName} 
+                    // Przekazanie stanu komponentu Event do komponentu dziecka EventAdd
                         newNameValid={this.state.newNameValid}
                         place={this.state.newPlace}
                         newPlaceValid={this.state.newPlaceValid}
@@ -135,7 +152,9 @@ class Events extends React.Component {
                         onFormChange={this.onFormChange.bind(this)}
                         onFormSubmit={this.onEventAdd.bind(this)}
                     />
-                    <br /><hr /> <br />
+                    <br />
+                    <hr />
+                    <br />
                     <CounterComponent />
                     <HelloComponent /><br />
                     <FormComponent />
@@ -156,3 +175,13 @@ class Events extends React.Component {
 // </ul>
 
 export { Events };
+
+/*
+Metoda this.setState, oprócz obiektu, może przyjmować również funkcję wywołania zwrotnego.
+
+this.setState((prevState, props) => {
+  return { text: 'Hello ' + prevState.text + props.name };
+});
+Przydaje się to wtedy kiedy chcemy miec pewność, że korzystamy z właściwego stanu komponentu.
+Z powodów wydajnościowych, operacja zmiany stanu może zostać przez React wykonana asynchronicznie i nie mamy na to wpływu. 
+*/
