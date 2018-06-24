@@ -40,7 +40,7 @@ Uwaga! Każde wywołanie metody this.setState powoduje ponowne wywołanie metody
 */
     }
 
-    componentDidMount() {
+    componentDidMount() { //metoda cyklu życia komponentu
         fetch('http://localhost:3100/events')
             .then(response => response.json())
             .then(events => {
@@ -137,6 +137,7 @@ Uwaga! Każde wywołanie metody this.setState powoduje ponowne wywołanie metody
                     </ul>
                     </Loader>
                     <button onClick={this.clearList}>Clear list</button><br /><br />
+                    {/* Do zdażenia onClick przypisano referencję do metody clearList() */}
                     <h3>Dodaj spotkanie:</h3>
                     {/* Formularz dodawania eventu */}
                     <EventAdd name={this.state.newName} 
@@ -184,4 +185,19 @@ this.setState((prevState, props) => {
 });
 Przydaje się to wtedy kiedy chcemy miec pewność, że korzystamy z właściwego stanu komponentu.
 Z powodów wydajnościowych, operacja zmiany stanu może zostać przez React wykonana asynchronicznie i nie mamy na to wpływu. 
+
+Cykle zycia komponentu:
+
+Cykl montowania:
+- componentDidMount – metoda ta jest wywoływana jeden raz, zaraz po pierwszym renderowaniu. 
+Jest to odpowiednie miejsce aby zmienić stan, co wywoła cykl odświeżania poniżej)
+Cykl odświerzania:
+- componentWillReceiveProps – wywoływana przed (ponownym) „napełnieniem” obiektu props; nowe „propsy” dostępne są jako parametr 
+metody; zmiana stanu w tej metodzie jest dozwolona
+- shouldComponentUpdate – pozwala zatrzymać re-renderowanie komponentu!
+- componentWillUpdate – podobna do componentWillMount, wywoływana bezpośrednio przed kolejnym wywołaniem metody render; 
+nie powinno się tutaj zmieniać stanu komponentu
+- componentDidUpdate – wywoływana jest zaraz po każdym kolejnym re-renderowaniu; można tutaj zmieniać stan komponentu
+Cykl demontowania:
+- componentWillUnmount – pozwala na wywołanie jakichś operacji czyszczenia itp.
 */
