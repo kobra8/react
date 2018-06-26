@@ -8,7 +8,7 @@ class CounterComponent extends React.Component {
 
     increaseCounter(id, event) {
         this.setState((event) => {
-            console.log(id); //przykład przekazania parametru w zdarzenius
+            console.log(id); //przykład przekazania parametru w zdarzeniu
             return { counter: this.state.counter + 1 }
         })
     }
@@ -17,7 +17,8 @@ class CounterComponent extends React.Component {
         return (
             <div>
                 <p>Counter: {this.state.counter}</p>
-                <button onClick={(event) => this.increaseCounter(1, event)}>
+                <button onClick={(event) => this.increaseCounter(1, event)}> 
+                {/* event przekazujemy zawsze na końcu wszystkich parametrów funkcji */}
                     Increase button
                 </button>
             </div>

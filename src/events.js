@@ -81,7 +81,7 @@ Uwaga! Każde wywołanie metody this.setState powoduje ponowne wywołanie metody
         this.setState({
             [input]: value,
             [input + 'Valid']: value.length > 0
-            //Powyżej użyto ES6 [dowolny string] staje się nazwą właściwości
+            //Powyżej użyto ES6 [dowolny string] otoczony [] staje się nazwą właściwości
         })
     }
 
@@ -130,6 +130,7 @@ Uwaga! Każde wywołanie metody this.setState powoduje ponowne wywołanie metody
                             //  let date = new Date(x.date) - inny sposób na konwersję daty ze stringa
                             if (date >= Date.now() && x.name.toLowerCase().indexOf(this.state.searchText) > -1) {
                                 return <EventItem x={x} key={x.id} clearItem={this.clearItem.bind(this)} />
+                                // 
                             };
                             return null;
                         })
