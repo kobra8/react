@@ -19,4 +19,6 @@ ReactDOM.render(
 Oczywiście, jeśli któryś z komponentów w drzewie jest komponentem funkcyjnym, to wówczas metoda render tego komponentu 
 nie jest wywoływana. Taki komponent sam jest funkcją więc to ona jest zamiast tego wywoływana.
 
+
+https://codepen.io/anon/pen/LrBjOz
     */

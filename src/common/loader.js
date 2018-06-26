@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Przykład komponent funkcyjnego
 const Loader = (props) => {
     if (props.isLoading) { // Renderowanie warunkowe:
-        return ( // Loader - tutaj text
+        return ( // Loader - zwraca tekst Loading
             <h1>Loading ...</h1>
         )
     }
