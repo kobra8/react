@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const EventItem = (props) => {
@@ -8,6 +9,7 @@ const EventItem = (props) => {
       Gdzie: {props.place}<br />
       Kiedy: {props.date} - {props.time}<br />
       <button onClick={props.onDeleteClicked.bind(this, props.id)}>Usuń</button>
+      <Link to={`/details/${props.id}`}>Szczegóły</Link>
     </li>
   );
 };
