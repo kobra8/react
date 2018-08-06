@@ -8,7 +8,8 @@ class Details extends Component {
   }
 
   componentDidMount(){
-    const id = this.props.match.params.eventId;
+    // React przekazuje pewne dane o routingu poprzez obiekt props - do dyspozycji 3 obiekty: match, location, history
+    const id = this.props.match.params.eventId; // match z parametru w routingu wyciąga taki parametr jak zdefiniowany w Route (tutaj itemId)
     console.log(id);
     const event = events.find(x => x.id === parseInt(id, 10));
     console.log(event);

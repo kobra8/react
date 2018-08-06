@@ -10,6 +10,7 @@ const App = () => {
       <Router>
         <div>
         <Route exact path="/" component={Events} />
+        {/* exact - czyli robi match dokładnie tego routa "/" (warunku nie spełniają np: "/second") */}
         <Route path="/details/:eventId" component={Details} />
         </div>
       </Router>  
