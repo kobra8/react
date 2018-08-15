@@ -10,7 +10,7 @@ const EventItem = (props) => {
       Kiedy: {props.date} - {props.time}<br />
       <button onClick={props.onDeleteClicked.bind(this, props.id)}>Usuń</button>
       <Link to={`/details/${props.id}`}>Szczegóły</Link> 
-      {/* Powyżej odnośnik zbudowany na bazie komponentu Link z react-router. Parametr itemId przekazany dynamicznie */}
+      {/* Powyżej odnośnik zbudowany na bazie komponentu Link z react-router. Parametr itemId przekazany dynamicznie z props*/}
     </li>
   );
 };

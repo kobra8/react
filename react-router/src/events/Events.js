@@ -3,7 +3,7 @@ import events from '../data/events';
 import EventItem from './EventItem';
 import EventFilters from './EventFilters';
 import EventAdd from './EventAdd';
-//import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 class Events extends React.Component {
   constructor(props) {
