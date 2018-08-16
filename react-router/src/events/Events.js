@@ -3,7 +3,8 @@ import events from '../data/events';
 import EventItem from './EventItem';
 import EventFilters from './EventFilters';
 import EventAdd from './EventAdd';
-import { Link, NavLink } from 'react-router-dom';
+import { Router, Route, Link, NavLink } from 'react-router-dom';
+import Details from '../details/Details';
 
 class Events extends React.Component {
   constructor(props) {
@@ -115,6 +116,10 @@ class Events extends React.Component {
             return null;
           })}
         </ul>
+        <div>
+          <h2>Szczegóły:</h2>
+          <Route path="/events/details/:eventId" component={Details}/>
+          </div>
         <button onClick={this.onClearClicked.bind(this)}>Wyczyść</button>
         <EventAdd name={this.state.newName}
                   place={this.state.newPlace}

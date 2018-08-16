@@ -8,26 +8,29 @@ class Details extends Component {
     this.state = { event: {} };
   }
 
-  componentDidMount() {
+  getEvent(){
     // React przekazuje pewne dane o routingu poprzez obiekt props - do dyspozycji 3 obiekty: match, location, history
     const id = this.props.match.params.eventId; // match z parametru w routingu wyciąga taki parametr jak zdefiniowany w Route (tutaj itemId)
-    console.log(id);
     const event = events.find(x => x.id === parseInt(id, 10)); //Find iteruje po tablicy i zwraca element, który spełnia warunek
-    if (event) {
+    return event;
+  }
+
+  componentDidMount() {
       this.setState({
-        event //ES6 zastepuje event: event
+        event: this.getEvent()
       });
-      
-    }
-    else {
-      this.setState({
-        event: {}
-      });
+  }
+
+  componentDidUpdate(){
+    const event = this.getEvent();
+    if(event.id !== this.state.event.id) {
+        this.setState({
+        event //ES6 zamiast event: event
+    });
     }
   }
 
   render() {
-    if(this.state.event.name){
       const { name, place, date, time } = this.state.event; //Destructuring - tworzymy zmienne z obiektu
       return (
         <div>
@@ -37,12 +40,6 @@ class Details extends Component {
           <h3>Godzina: {time}</h3>
         </div>
       )
-    }
-    else {
-      return(
-        <h2>Event not found</h2>
-      )
-    }
   }
 
 }

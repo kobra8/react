@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, NavLink} from 'react-router-dom';
 
 import Events from './events/Events';
-import Details from './details/Details';
 import NotFound from './not-found/NotFound';
+import Home from './home/Home';
 
 
 const App = () => {
@@ -17,6 +17,11 @@ const App = () => {
             </NavLink>
           </li>
           <li>
+            <NavLink to={'/events'} activeStyle={{fontWeight: 'bold'}} exact>
+              Events
+            </NavLink>
+          </li>
+          <li>
             <NavLink to={'/about'} activeStyle={{fontWeight: 'bold'}}>
             O nas
             </NavLink>
@@ -24,8 +29,6 @@ const App = () => {
         </ul>
         <Switch>
         {/* exact - czyli sprawdza Regexem czy pasuje dokładnie do "/" (warunku nie spełniają np: "/second") */}
-        <Route exact path="/" component={Events} />
-        <Route path="/details/:eventId" component={Details} />
         <Route path="/about" render={()=> 
             <div>
               <h2>About Us</h2>
@@ -44,6 +47,8 @@ const App = () => {
               </p>
             </div>
         } />
+          <Route path="/events" component={Events} />
+          <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
         </div>
