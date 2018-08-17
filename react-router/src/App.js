@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, NavLink} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, NavLink, Redirect} from 'react-router-dom';
 
 import Events from './events/Events';
 import NotFound from './not-found/NotFound';
 import Home from './home/Home';
-
+import Settings from './settings/Settings';
+import Login from './login/Login';
 
 const App = () => {
     return (
@@ -24,6 +25,11 @@ const App = () => {
           <li>
             <NavLink to={'/about'} activeStyle={{fontWeight: 'bold'}}>
             O nas
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={'/settings'} activeStyle={{fontWeight: 'bold'}}>
+              Settings
             </NavLink>
           </li>
         </ul>
@@ -48,6 +54,8 @@ const App = () => {
             </div>
         } />
           <Route path="/events" component={Events} />
+          <Route path="/login" component={Login} />
+          <Redirect from='/settings' to='/login'/>
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
