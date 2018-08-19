@@ -55,7 +55,7 @@ const App = () => {
         } />
           <Route path="/events" component={Events} />
           <Route path="/login" component={Login} />
-          <Redirect from='/settings' to='/login'/>
+          <Route path="/settings" component={Settings} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
