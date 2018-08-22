@@ -4,11 +4,14 @@ import EventItem from './EventItem';
 import EventFilters from './EventFilters';
 import EventAdd from './EventAdd';
 
+import { connect } from 'react-redux';
+import * as actions from '../actions/events';
+
 class Events extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [],
+    //  events: [],
       filter: '',
       newName: '',
       newNameValid: false,
@@ -30,7 +33,8 @@ class Events extends React.Component {
   onClearClicked(event) {
     event.preventDefault();
 
-    this.setState({ events: [] });
+    this.props.clearEvents();
+   // this.setState({ events: [] });
   }
 
   onDeleteClicked(id, event) {
@@ -96,7 +100,7 @@ class Events extends React.Component {
       <div>
         <EventFilters onFilterChange={this.onFilterChange.bind(this)} />
         <ul>
-          {this.state.events.map(item => {
+          {this.props.events.map(item => {
             const date = new Date(item.date);
 
             if (date >= Date.now() && item.name.indexOf(this.state.filter) > -1) {
@@ -123,6 +127,20 @@ class Events extends React.Component {
       </div>
     );
   }
+}
+// Funkcja mapowania dzięki której wszystkie właściwości obiektu STORE są dostępne w obiekcie PROPS komponentu
+const mapStateToProps = (state)=> {
+  return {
+    ...state
+  };
 };
+// Funkcja służy do powiązania metody dispatch (ze store) z obiektem props komponentu -> wywoływane są reducery w obiekcie store i potem re-renderowanie komponentu
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      clearEvents: ()=> dispatch(actions.clearEvents())
+    };
+  };
 
-export default Events;
+
+//Fukcja Connect wiąże komponent React ze stanem aplikacji Redux
+export default connect(mapStateToProps, mapDispatchToProps)(Events);
