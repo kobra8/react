@@ -11,6 +11,8 @@ export function eventsReducer(state = initialState, action) { //Case dla reducer
   switch (action.type) {
     case constants.EVENTS_CLEAR:
       return { ...state, events: [] }
+    case constants.EVENT_DELETE:
+      return { ...state, events: action.payload.events }
     default:
       return state;
   }

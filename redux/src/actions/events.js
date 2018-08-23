@@ -7,3 +7,12 @@ export function clearEvents() {
     type: constants.EVENTS_CLEAR
   };
 }
+
+export function deleteEvent(filteredEvents) {
+  return {
+    type: constants.EVENT_DELETE,
+    payload: {
+      events: filteredEvents
+    }
+  };
+}

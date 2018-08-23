@@ -42,9 +42,10 @@ class Events extends React.Component {
 
     const filteredArray = this.state.events.filter(item => item.id !== id);
 
-    this.setState({
-      events: filteredArray
-    });
+    this.props.deleteEvent(filteredArray)
+    // this.setState({
+    //   events: filteredArray
+    // });
   }
 
   onFilterChange(event) {
@@ -137,7 +138,8 @@ const mapStateToProps = (state)=> {
 // Funkcja służy do powiązania metody dispatch (ze store) z obiektem props komponentu -> wywoływane są reducery w obiekcie store i potem re-renderowanie komponentu
   const mapDispatchToProps = (dispatch) => {
     return {
-      clearEvents: ()=> dispatch(actions.clearEvents())
+      clearEvents: ()=> dispatch(actions.clearEvents()),
+      deleteEvent: (filteredEvents)=> dispatch(actions.deleteEvent(filteredEvents))
     };
   };
 
