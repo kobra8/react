@@ -12,7 +12,7 @@ class Events extends React.Component {
     super(props);
     this.state = {
     //  events: [],
-      filter: '',
+    //  filter: '',
       newName: '',
       newNameValid: false,
       newPlace: '',
@@ -30,30 +30,19 @@ class Events extends React.Component {
     });
   }
 
-  onClearClicked(event) {
+  onClearClicked(event) { // Changed to reducers function
     event.preventDefault();
-
     this.props.clearEvents();
-   // this.setState({ events: [] });
   }
 
-  onDeleteClicked(id, event) {
+  onDeleteClicked(id, event) { // Changed to reducers function
     event.preventDefault();
-
-    const filteredArray = this.state.events.filter(item => item.id !== id);
-
-    this.props.deleteEvent(filteredArray)
-    // this.setState({
-    //   events: filteredArray
-    // });
+    this.props.deleteEvent(id)
   }
 
-  onFilterChange(event) {
+  onFilterChange(event) { // Changed to reducers function
     const value = event.currentTarget.value;
-
-    this.setState({
-      filter: value
-    });
+    this.props.filterEvents(value);
   };
 
   onEventFieldChange(field, event) {
@@ -104,7 +93,7 @@ class Events extends React.Component {
           {this.props.events.map(item => {
             const date = new Date(item.date);
 
-            if (date >= Date.now() && item.name.indexOf(this.state.filter) > -1) {
+            if (date >= Date.now() && item.name.indexOf(this.props.filter) > -1) {
               return (
                 <EventItem {...item} key={item.id} onDeleteClicked={this.onDeleteClicked.bind(this)} />
               );
@@ -139,7 +128,8 @@ const mapStateToProps = (state)=> {
   const mapDispatchToProps = (dispatch) => {
     return {
       clearEvents: ()=> dispatch(actions.clearEvents()),
-      deleteEvent: (filteredEvents)=> dispatch(actions.deleteEvent(filteredEvents))
+      deleteEvent: (eventId)=> dispatch(actions.deleteEvent(eventId)),
+      filterEvents: (filter)=> dispatch(actions.filterEvents(filter))
     };
   };
 

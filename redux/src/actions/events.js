@@ -8,11 +8,20 @@ export function clearEvents() {
   };
 }
 
-export function deleteEvent(filteredEvents) {
+export function deleteEvent(eventId) {
   return {
     type: constants.EVENT_DELETE,
     payload: {
-      events: filteredEvents
+      eventId
+    }
+  };
+}
+
+export function filterEvents(filter) {
+  return {
+    type: constants.EVENTS_FILTER,
+    payload: {
+      filter
     }
   };
 }
