@@ -1,5 +1,4 @@
 import React from 'react';
-import events from '../data/events';
 import EventItem from './EventItem';
 import EventFilters from './EventFilters';
 import EventAdd from './EventAdd';
@@ -8,27 +7,6 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/events';
 
 class Events extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    //  events: [],
-    //  filter: '',
-      newName: '',
-      newNameValid: false,
-      newPlace: '',
-      newPlaceValid: false,
-      newDate: '',
-      newDateValid: false,
-      newTime: '',
-      newTimeValid: false
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      events
-    });
-  }
 
   onClearClicked(event) { // Changed to reducers function
     event.preventDefault();
@@ -47,17 +25,12 @@ class Events extends React.Component {
 
   onEventFieldChange(field, event) {
     const value = event.currentTarget.value;
-    this.setState({
-      [field]: value,
-      [field + 'Valid']: value.length > 0
-    });
+    this.props.changeFormField(field, value);
   }
 
   onEventAdd(event) {
     event.preventDefault();
-
     const {
-      events,
       newName,
       newNameValid,
       newPlace,
@@ -66,22 +39,10 @@ class Events extends React.Component {
       newDateValid,
       newTime,
       newTimeValid
-    } = this.state;
-
-    const maxId = Math.max(...events.map(item => item.id));
-
-    events.push({
-      id: maxId + 1,
-      name: newName,
-      place: newPlace,
-      date: newDate,
-      time: newTime
-    });
+    } = this.props;
 
     if (newNameValid && newPlaceValid && newDateValid && newTimeValid) {
-      this.setState({
-        events
-      });
+      this.props.addEvent(newName, newPlace, newDate, newTime)
     }
   }
 
@@ -103,14 +64,14 @@ class Events extends React.Component {
           })}
         </ul>
         <button onClick={this.onClearClicked.bind(this)}>Wyczyść</button>
-        <EventAdd name={this.state.newName}
-                  place={this.state.newPlace}
-                  date={this.state.newDate}
-                  time={this.state.newTime}
-                  nameValid={this.state.newNameValid}
-                  placeValid={this.state.newPlaceValid}
-                  dateValid={this.state.newDateValid}
-                  timeValid={this.state.newTimeValid}
+        <EventAdd name={this.props.newName}
+                  place={this.props.newPlace}
+                  date={this.props.newDate}
+                  time={this.props.newTime}
+                  nameValid={this.props.newNameValid}
+                  placeValid={this.props.newPlaceValid}
+                  dateValid={this.props.newDateValid}
+                  timeValid={this.props.newTimeValid}
                   onFieldChange={this.onEventFieldChange.bind(this)}
                   onFormSubmit={this.onEventAdd.bind(this)}
         />
@@ -128,8 +89,10 @@ const mapStateToProps = (state)=> {
   const mapDispatchToProps = (dispatch) => {
     return {
       clearEvents: ()=> dispatch(actions.clearEvents()),
+      addEvent: (name, place, date , time)=> dispatch(actions.addEvent(name, place, date , time)),
       deleteEvent: (eventId)=> dispatch(actions.deleteEvent(eventId)),
-      filterEvents: (filter)=> dispatch(actions.filterEvents(filter))
+      filterEvents: (filter)=> dispatch(actions.filterEvents(filter)),
+      changeFormField: (field, value)=> dispatch(actions.changeFormField(field, value))
     };
   };
 
