@@ -1,4 +1,4 @@
-// ACTIONS
+// ACTIONS dla kontenera Events
 
 import * as constants from '../constants';
 

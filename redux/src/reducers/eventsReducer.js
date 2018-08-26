@@ -25,6 +25,7 @@ export function eventsReducer(state = initialState, action) { //Case dla reducer
     case constants.EVENT_FORM_DATA:
       const { field, value } = action.payload
       return {...state, [field]: value, [field + 'Valid']: value.length > 0 };
+       //Powyżej użyto ES6 [dowolny string] otoczony [] staje się nazwą właściwości
 
     case constants.EVENT_ADD:
       const stateCopy = {...state}
@@ -64,4 +65,6 @@ export function eventsReducer(state = initialState, action) { //Case dla reducer
     default:
       return state;
   }
+
+  //Koniec funkcji eventsReducer
 }

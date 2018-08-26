@@ -23,6 +23,7 @@ class Events extends React.Component {
     this.props.filterEvents(value);
   };
 
+  //Funkcja onFieldChange obsługuje wszystkie inputy
   onEventFieldChange(field, event) {
     const value = event.currentTarget.value;
     this.props.changeFormField(field, value);
@@ -39,7 +40,7 @@ class Events extends React.Component {
       newDateValid,
       newTime,
       newTimeValid
-    } = this.props;
+    } = this.props.eventsStore;
 
     if (newNameValid && newPlaceValid && newDateValid && newTimeValid) {
       this.props.addEvent(newName, newPlace, newDate, newTime)
@@ -51,10 +52,10 @@ class Events extends React.Component {
       <div>
         <EventFilters onFilterChange={this.onFilterChange.bind(this)} />
         <ul>
-          {this.props.events.map(item => {
+          {this.props.eventsStore.events.map(item => {
             const date = new Date(item.date);
 
-            if (date >= Date.now() && item.name.indexOf(this.props.filter) > -1) {
+            if (date >= Date.now() && item.name.indexOf(this.props.eventsStore.filter) > -1) {
               return (
                 <EventItem {...item} key={item.id} onDeleteClicked={this.onDeleteClicked.bind(this)} />
               );
@@ -64,14 +65,14 @@ class Events extends React.Component {
           })}
         </ul>
         <button onClick={this.onClearClicked.bind(this)}>Wyczyść</button>
-        <EventAdd name={this.props.newName}
-                  place={this.props.newPlace}
-                  date={this.props.newDate}
-                  time={this.props.newTime}
-                  nameValid={this.props.newNameValid}
-                  placeValid={this.props.newPlaceValid}
-                  dateValid={this.props.newDateValid}
-                  timeValid={this.props.newTimeValid}
+        <EventAdd name={this.props.eventsStore.newName}
+                  place={this.props.eventsStore.newPlace}
+                  date={this.props.eventsStore.newDate}
+                  time={this.props.eventsStore.newTime}
+                  nameValid={this.props.eventsStore.newNameValid}
+                  placeValid={this.props.eventsStore.newPlaceValid}
+                  dateValid={this.props.eventsStore.newDateValid}
+                  timeValid={this.props.eventsStore.newTimeValid}
                   onFieldChange={this.onEventFieldChange.bind(this)}
                   onFormSubmit={this.onEventAdd.bind(this)}
         />

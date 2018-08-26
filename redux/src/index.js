@@ -5,11 +5,12 @@ import App from './App';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import {eventsReducer} from './reducers/eventsReducer';
+import rootReducer from './reducers';
+
 
 // STORE CREATE
 
-const store = createStore(eventsReducer);
+const store = createStore(rootReducer);
  store.dispatch({ type: 'TEST_ACTION'}); // czysta akcja -> test
 
 ReactDOM.render(
