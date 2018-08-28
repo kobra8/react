@@ -3,4 +3,12 @@ export const EVENT_ADD = 'EVENT_ADD';
 export const EVENT_DELETE = 'EVENT_DELETE';
 export const EVENTS_FILTER = 'EVENTS_FILTER';
 export const EVENT_FORM_DATA = 'EVENT_FORM_DATA';
-export const DETAILS_DATA = 'DETAILS_DATA';
+
+export const EVENTS_LOADING = 'EVENTS_LOADING';
+export const EVENTS_SUCCESS = 'EVENTS_SUCCESS';
+export const EVENTS_ERROR = 'EVENTS_ERROR';
+
+export const DETAILS_FIND = 'DETAILS_FIND';
+export const DETAILS_LOADING = 'DETAILS_LOADING';
+export const DETAILS_SUCCESS = 'DETAILS_SUCCESS';
+export const DETAILS_ERROR = 'DETAILS_ERROR';

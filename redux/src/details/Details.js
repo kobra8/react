@@ -1,13 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions/details';
+import * as detailsActions from '../actions/details';
 
 class Details extends React.Component {
 
   componentDidMount() {
+      this.props.getData();
+    }
+  componentDidUpdate() {
+    if(this.props.detailsStore.shouldUpdate) { // Ta flaga zapobiega zapętleniu cyklu componentDidUpdate
     const id = this.props.match.params.eventId;
     this.props.eventDetails(id);
     }
+  }
 
   render() {
     const { name, place, date, time } = this.props.detailsStore.event;
@@ -30,7 +35,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    eventDetails: (eventId) => dispatch(actions.eventDetails(eventId))
+    eventDetails: (eventId) => dispatch(detailsActions.eventDetails(eventId)),
+    getData: () => dispatch(detailsActions.getData())
   }
 }
 

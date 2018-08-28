@@ -1,6 +1,7 @@
 // ACTIONS dla kontenera Events
 
 import * as constants from '../constants';
+import fetch from 'isomorphic-fetch';
 
 export function clearEvents() {
   return {
@@ -46,4 +47,42 @@ export function filterEvents(filter) {
       filter
     }
   };
+}
+
+export function eventsLoading(){
+  return {
+    type: constants.EVENTS_LOADING
+  }
+}
+
+export function eventsSuccess(data){
+  return {
+    type: constants.EVENTS_SUCCESS,
+    payload:{
+      data
+    }
+  }
+}
+export function eventsError(error){
+  return {
+    type: constants.EVENTS_ERROR,
+    payload: {
+      error
+    }
+  }
+}
+
+export function getEvents(){
+  return (dispatch) => {
+    dispatch(eventsLoading());
+    fetch('http://localhost:3100/events')
+    .then(response => response.json())
+    .then( data => {
+      dispatch(eventsSuccess(data))
+      }
+    )
+    .catch( error => {
+      dispatch(eventsError(error))
+    })
+  }
 }

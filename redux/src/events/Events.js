@@ -8,6 +8,10 @@ import * as actions from '../actions/events';
 
 class Events extends React.Component {
 
+  componentDidMount(){
+    this.props.getEvents();
+  }
+
   onClearClicked(event) { // Changed to reducers function
     event.preventDefault();
     this.props.clearEvents();
@@ -93,7 +97,8 @@ const mapStateToProps = (state)=> {
       addEvent: (name, place, date , time)=> dispatch(actions.addEvent(name, place, date , time)),
       deleteEvent: (eventId)=> dispatch(actions.deleteEvent(eventId)),
       filterEvents: (filter)=> dispatch(actions.filterEvents(filter)),
-      changeFormField: (field, value)=> dispatch(actions.changeFormField(field, value))
+      changeFormField: (field, value)=> dispatch(actions.changeFormField(field, value)),
+      getEvents: ()=> dispatch(actions.getEvents())
     };
   };
 

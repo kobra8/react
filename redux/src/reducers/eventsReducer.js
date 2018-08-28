@@ -1,10 +1,12 @@
 // REDUCERS
 
 import * as constants from '../constants';
-import events from '../data/events.json';
+//import events from '../data/events.json';
 
 const initialState = { // Stan początkowy
-  events,
+  events: [],
+  isLoading: false,
+  isError: false,
   filter: '',
   newName: '',
   newNameValid: false,
@@ -62,6 +64,14 @@ export function eventsReducer(state = initialState, action) { //Case dla reducer
       const filterValue = action.payload.filter;
       return { ...state, filter: filterValue };
 
+    case constants.EVENTS_LOADING:
+        return {...state, isLoading: true};
+
+    case constants.EVENTS_SUCCESS:
+        return {...state, isLoading: false, events: action.payload.data}
+
+    case constants.EVENTS_ERROR:
+      return {...state, isLoading: false, isError: true}    
     default:
       return state;
   }
